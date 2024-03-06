@@ -1,9 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿
 
+using reviewsapp.models;
 namespace reviewsapp.Interfaces
 {
     public interface ImodelRepository
     {
         ICollection<Model> GetModels();
+        Model GetModel(int Id);
+        Model GetModel(string Name);
+        decimal GetModelRating(int modId);
+        bool ModelExists(int modId);
     }
 }

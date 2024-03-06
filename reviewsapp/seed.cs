@@ -16,7 +16,7 @@ namespace reviewsapp
         {
             if (!dataContext.ModelOwners.Any())
             {
-                var modelowners = new List<ModelOwner>()
+                var modelOwners = new List<ModelOwner>()
                 {
                     new()
                     {
@@ -110,7 +110,7 @@ namespace reviewsapp
                         }
                     }
                 };
-                dataContext.ModelOwners.AddRange(modelowners);
+                dataContext.ModelOwners.AddRange(modelOwners );
                 dataContext.SaveChanges();
             }
         }
