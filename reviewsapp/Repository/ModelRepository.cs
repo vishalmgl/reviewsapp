@@ -28,9 +28,8 @@ namespace reviewsapp.Repository
         {
             var review = _context.Reviews.Where(p => p.Model.Id == modId).FirstOrDefault();
             if(review.Count() <= 0)
-            {
-                return 0;
-            }
+            return 0;
+            return ((decimal)review.Sum(r =>r.Rating) / review.Count());
         }
 
         public ICollection<Model> GetModels()
@@ -40,7 +39,7 @@ namespace reviewsapp.Repository
 
         public bool ModelExists(int modId)
         {
-            throw new NotImplementedException();
+            return _context.Models.Any(p => p.Id == modId);
         }
     }
 
