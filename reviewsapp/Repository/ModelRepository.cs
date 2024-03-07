@@ -5,7 +5,7 @@ using reviewsapp.models;
 
 namespace reviewsapp.Repository
 {
-    public class ModelRepository : ImodelRepository
+    public class ModelRepository : IModelRepository
     {
         private readonly DataContext _context;
 
