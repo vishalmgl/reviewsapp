@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using reviewsapp.dto;
 using reviewsapp.Interfaces;
 using reviewsapp.models;
 using System.Reflection.Metadata.Ecma335;
@@ -11,7 +13,7 @@ namespace reviewsapp.Controllers
     public class ModelControllers : Controller
     {
         private readonly ImodelRepository _modelRepository;
-        public ModelControllers(ImodelRepository ModelRepository)
+        public ModelControllers(ImodelRepository ModelRepository,IMapper mapper)
         {
             _modelRepository = ModelRepository;
         }
@@ -20,7 +22,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Model>))]
         public IActionResult GetModels()
         {
-            var Models = _modelRepository.GetModels();
+            var Models =_mapper.Maps<List<Modeldto>>(_modelRepository.GetModels());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
