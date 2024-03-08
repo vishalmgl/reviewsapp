@@ -3,7 +3,7 @@
 using reviewsapp.models;
 namespace reviewsapp.Interfaces
 {
-    public interface IModelRepository
+    public interface ImodelRepository
     {
         ICollection<Model> GetModels();
         Model GetModel(int Id);
