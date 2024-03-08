@@ -22,7 +22,7 @@ namespace reviewsapp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ModelCategory", b =>
+            modelBuilder.Entity("modelcategory", b =>
                 {
                     b.Property<int>("modelId")
                         .HasColumnType("int");
@@ -37,7 +37,7 @@ namespace reviewsapp.Migrations
                     b.ToTable("ModelCategories");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Category", b =>
+            modelBuilder.Entity("reviewsapp.models.Catergory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -54,7 +54,7 @@ namespace reviewsapp.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Country", b =>
+            modelBuilder.Entity("reviewsapp.models.country", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,7 +71,7 @@ namespace reviewsapp.Migrations
                     b.ToTable("Country");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Model", b =>
+            modelBuilder.Entity("reviewsapp.models.model", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,7 +91,7 @@ namespace reviewsapp.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.ModelOwner", b =>
+            modelBuilder.Entity("reviewsapp.models.modelowner", b =>
                 {
                     b.Property<int>("modelId")
                         .HasColumnType("int");
@@ -106,7 +106,7 @@ namespace reviewsapp.Migrations
                     b.ToTable("ModelOwners");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.OwnerName", b =>
+            modelBuilder.Entity("reviewsapp.models.ownername", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,23 +121,23 @@ namespace reviewsapp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ModelId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("modelId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CountryId");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("modelId");
 
                     b.ToTable("OwnerName");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Review", b =>
+            modelBuilder.Entity("reviewsapp.models.review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,24 +145,24 @@ namespace reviewsapp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ModelId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ModelOwnerOwnerId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ModelOwnermodelId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReviewerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("modelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("modelownerOwnerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("modelownermodelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("reviewerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("text")
                         .IsRequired()
@@ -170,16 +170,16 @@ namespace reviewsapp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ModelId");
+                    b.HasIndex("modelId");
 
-                    b.HasIndex("ReviewerId");
+                    b.HasIndex("reviewerId");
 
-                    b.HasIndex("ModelOwnermodelId", "ModelOwnerOwnerId");
+                    b.HasIndex("modelownermodelId", "modelownerOwnerId");
 
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Reviewer", b =>
+            modelBuilder.Entity("reviewsapp.models.reviewer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -200,16 +200,16 @@ namespace reviewsapp.Migrations
                     b.ToTable("Reviewers");
                 });
 
-            modelBuilder.Entity("ModelCategory", b =>
+            modelBuilder.Entity("modelcategory", b =>
                 {
-                    b.HasOne("reviewsapp.models.Category", "Category")
-                        .WithMany("ModelCategories")
+                    b.HasOne("reviewsapp.models.Catergory", "Category")
+                        .WithMany("ModelCategorie")
                         .HasForeignKey("categoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("reviewsapp.models.Model", "Model")
-                        .WithMany("ModelCategories")
+                    b.HasOne("reviewsapp.models.model", "Model")
+                        .WithMany("ModelCategorie")
                         .HasForeignKey("modelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -219,15 +219,15 @@ namespace reviewsapp.Migrations
                     b.Navigation("Model");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.ModelOwner", b =>
+            modelBuilder.Entity("reviewsapp.models.modelowner", b =>
                 {
-                    b.HasOne("reviewsapp.models.OwnerName", "Owner")
+                    b.HasOne("reviewsapp.models.ownername", "Owner")
                         .WithMany("ModelOwners")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("reviewsapp.models.Model", "Model")
+                    b.HasOne("reviewsapp.models.model", "Model")
                         .WithMany("ModelOwners")
                         .HasForeignKey("modelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -238,78 +238,78 @@ namespace reviewsapp.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.OwnerName", b =>
+            modelBuilder.Entity("reviewsapp.models.ownername", b =>
                 {
-                    b.HasOne("reviewsapp.models.Country", "Country")
-                        .WithMany("OwnerNames")
+                    b.HasOne("reviewsapp.models.country", "Country")
+                        .WithMany("Ownernames")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("reviewsapp.models.Model", null)
-                        .WithMany("OwnerNames")
-                        .HasForeignKey("ModelId");
+                    b.HasOne("reviewsapp.models.model", null)
+                        .WithMany("Ownernames")
+                        .HasForeignKey("modelId");
 
                     b.Navigation("Country");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Review", b =>
+            modelBuilder.Entity("reviewsapp.models.review", b =>
                 {
-                    b.HasOne("reviewsapp.models.Model", "Model")
+                    b.HasOne("reviewsapp.models.model", "model")
                         .WithMany("reviews")
-                        .HasForeignKey("ModelId")
+                        .HasForeignKey("modelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("reviewsapp.models.Reviewer", "Reviewer")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ReviewerId")
+                    b.HasOne("reviewsapp.models.reviewer", "reviewer")
+                        .WithMany("reviews")
+                        .HasForeignKey("reviewerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("reviewsapp.models.ModelOwner", null)
-                        .WithMany("Reviews")
-                        .HasForeignKey("ModelOwnermodelId", "ModelOwnerOwnerId");
+                    b.HasOne("reviewsapp.models.modelowner", null)
+                        .WithMany("reviews")
+                        .HasForeignKey("modelownermodelId", "modelownerOwnerId");
 
-                    b.Navigation("Model");
+                    b.Navigation("model");
 
-                    b.Navigation("Reviewer");
+                    b.Navigation("reviewer");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Category", b =>
+            modelBuilder.Entity("reviewsapp.models.Catergory", b =>
                 {
-                    b.Navigation("ModelCategories");
+                    b.Navigation("ModelCategorie");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Country", b =>
+            modelBuilder.Entity("reviewsapp.models.country", b =>
                 {
-                    b.Navigation("OwnerNames");
+                    b.Navigation("Ownernames");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Model", b =>
+            modelBuilder.Entity("reviewsapp.models.model", b =>
                 {
-                    b.Navigation("ModelCategories");
+                    b.Navigation("ModelCategorie");
 
                     b.Navigation("ModelOwners");
 
-                    b.Navigation("OwnerNames");
+                    b.Navigation("Ownernames");
 
                     b.Navigation("reviews");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.ModelOwner", b =>
+            modelBuilder.Entity("reviewsapp.models.modelowner", b =>
                 {
-                    b.Navigation("Reviews");
+                    b.Navigation("reviews");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.OwnerName", b =>
+            modelBuilder.Entity("reviewsapp.models.ownername", b =>
                 {
                     b.Navigation("ModelOwners");
                 });
 
-            modelBuilder.Entity("reviewsapp.models.Reviewer", b =>
+            modelBuilder.Entity("reviewsapp.models.reviewer", b =>
                 {
-                    b.Navigation("Reviews");
+                    b.Navigation("reviews");
                 });
 #pragma warning restore 612, 618
         }
