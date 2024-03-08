@@ -4,7 +4,7 @@ using reviewsapp.models;
 
 namespace reviewsapp
 {
-   
+
     public class Seed
     {
         private readonly DataContext dataContext;
@@ -16,9 +16,9 @@ namespace reviewsapp
         {
             if (!dataContext.ModelOwners.Any())
             {
-                var modelowners = new List<ModelOwner>()
+                var modelOwners = new List<ModelOwner>()
                 {
-                    new ModelOwner()
+                    new()
                     {
                         Model = new Model()
                         {
@@ -26,15 +26,15 @@ namespace reviewsapp
                             WashDate = new DateTime(1903,1,1),
                             ModelCategories = new List<ModelCategory>()
                             {
-                                new ModelCategory { Category = new Category() { Name = "Electric"}}
+                                new() { Category = new Category() { Name = "Electric"}}
                             },
                             reviews = new List<Review>()
                             {
-                                new Review { Title="Pikachu",text = "Pickahu is the best pokemon, because it is electric", Rating = 5,
+                                new() { Title="Pikachu",text = "Pickahu is the best pokemon, because it is electric", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Teddy", LastName = "Smith" } },
-                                new Review { Title="Pikachu", text = "Pickachu is the best a killing rocks", Rating = 5,
+                                new() { Title="Pikachu", text = "Pickachu is the best a killing rocks", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Taylor", LastName = "Jones" } },
-                                new Review { Title="Pikachu",text = "Pickchu, pickachu, pikachu", Rating = 1,
+                                new() { Title="Pikachu",text = "Pickchu, pickachu, pikachu", Rating = 1,
                                 Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } },
                             }
                         },
@@ -48,7 +48,7 @@ namespace reviewsapp
                             }
                         }
                     },
-                    new ModelOwner()
+                    new()
                     {
                         Model = new Model()
                         {
@@ -56,15 +56,15 @@ namespace reviewsapp
                             WashDate = new DateTime(1903,1,1),
                             ModelCategories = new List<ModelCategory>()
                             {
-                                new ModelCategory { Category = new Category() { Name = "Water"}}
+                                new() { Category = new Category() { Name = "Water"}}
                             },
                             reviews = new List<Review>()
                             {
-                                new Review { Title= "Squirtle", text = "squirtle is the best pokemon, because it is electric", Rating = 5,
+                                new() { Title= "Squirtle", text = "squirtle is the best pokemon, because it is electric", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Teddy", LastName = "Smith" } },
-                                new Review { Title= "Squirtle",text = "Squirtle is the best a killing rocks", Rating = 5,
+                                new() { Title= "Squirtle",text = "Squirtle is the best a killing rocks", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Taylor", LastName = "Jones" } },
-                                new Review { Title= "Squirtle", text = "squirtle, squirtle, squirtle", Rating = 1,
+                                new() { Title= "Squirtle", text = "squirtle, squirtle, squirtle", Rating = 1,
                                 Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } },
                             }
                         },
@@ -78,7 +78,7 @@ namespace reviewsapp
                             }
                         }
                     },
-                    new ModelOwner()
+                    new()
                     {
                             Model = new Model()
                         {
@@ -86,21 +86,21 @@ namespace reviewsapp
                             WashDate = new DateTime(1903,1,1),
                             ModelCategories = new List<ModelCategory>()
                             {
-                                new ModelCategory { Category = new Category() { Name = "Leaf"}}
+                                new() { Category = new Category() { Name = "Leaf"}}
                             },
                             reviews = new List<Review>()
                             {
-                                new Review { Title="Veasaur",text = "Venasuar is the best pokemon, because it is electric", Rating = 5,
+                                new() { Title="Veasaur",text = "Venasuar is the best pokemon, because it is electric", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Teddy", LastName = "Smith" } },
-                                new Review { Title="Veasaur",text = "Venasuar is the best a killing rocks", Rating = 5,
+                                new() { Title="Veasaur",text = "Venasuar is the best a killing rocks", Rating = 5,
                                 Reviewer = new Reviewer(){ FirstName = "Taylor", LastName = "Jones" } },
-                                new Review { Title="Veasaur",text = "Venasuar, Venasuar, Venasuar", Rating = 1,
+                                new() { Title="Veasaur",text = "Venasuar, Venasuar, Venasuar", Rating = 1,
                                 Reviewer = new Reviewer(){ FirstName = "Jessica", LastName = "McGregor" } },
                             }
                         },
                         Owner = new OwnerName()
                         {
-                           
+
                             Name = "Ash Ketchum",
                             Gym = "Ashs Gym",
                             Country = new Country()
@@ -110,7 +110,7 @@ namespace reviewsapp
                         }
                     }
                 };
-                dataContext.ModelOwners.AddRange(ModelOwner);
+                dataContext.ModelOwners.AddRange(modelOwners );
                 dataContext.SaveChanges();
             }
         }
