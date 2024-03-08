@@ -4,13 +4,20 @@ using reviewsapp.Data;
 using reviewsapp.Interfaces;
 using reviewsapp.Repository;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
-builder.Services.AddScoped<ImodelRepository,ModelRepository>();
+
+
+builder.Services.AddScoped<IModelRepository,ModelRepository>();
+builder.Services.AddScoped<ICategoryRepository,CategoryRepository>();
+builder.Services.AddScoped<ICountryRepository,CountryRepository>();
+
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());    
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
