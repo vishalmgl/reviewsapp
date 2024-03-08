@@ -12,17 +12,20 @@ namespace reviewsapp.Controllers
     [ApiController]
     public class ModelControllers : Controller
     {
-        private readonly ImodelRepository _modelRepository;
-        public ModelControllers(ImodelRepository ModelRepository,IMapper mapper)
+        private readonly IModelRepository _modelRepository;
+        private readonly IMapper _mapper;
+
+        public ModelControllers(IModelRepository ModelRepository,IMapper mapper)
         {
             _modelRepository = ModelRepository;
+            _mapper = mapper;
         }
         [HttpGet]
 
         [ProducesResponseType(200, Type = typeof(IEnumerable<Model>))]
         public IActionResult GetModels()
         {
-            var Models =_mapper.Maps<List<Modeldto>>(_modelRepository.GetModels());
+            var Models =_mapper.Map<List<Modeldto>>(_modelRepository.GetModels());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using reviewsapp.dto;
+using reviewsapp.models;
 
 namespace reviewsapp.Helper
 {
@@ -9,6 +9,8 @@ namespace reviewsapp.Helper
         public MappingProfiles ()
         {
             CreateMap<Model, Modeldto>();
+            CreateMap<Category, Categorydto>();
+            
         }
     }
 }
