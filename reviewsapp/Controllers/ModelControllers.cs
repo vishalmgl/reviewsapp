@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using reviewsapp.dto;
 using reviewsapp.Interfaces;
 using reviewsapp.models;
-using reviewsapp.Repository;
-
 
 
 namespace reviewsapp.Controllers
