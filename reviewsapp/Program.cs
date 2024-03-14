@@ -57,6 +57,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapControllers();
+ app.MapControllers();
 SeedData(app);
 app.Run();
