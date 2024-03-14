@@ -23,7 +23,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         public IActionResult GetCountry()
         {
-            var Country = _Mapper.Map<List<CountryDto>>(_CountryRepository.GetCountry());
+            var Country = _Mapper.Map<List<CountryDto>>(_CountryRepository.GetCountries());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -67,9 +67,9 @@ namespace reviewsapp.Controllers
                 .Where(c => c.Name.Trim().ToUpper() == CountryCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
-            if (Country!= null)
+            if (Country != null)
             {
-                ModelState.AddModelError("","Country already exist");
+                ModelState.AddModelError("", "Country already exist");
                 return BadRequest(ModelState);
             }
             if (!ModelState.IsValid)
@@ -124,7 +124,7 @@ namespace reviewsapp.Controllers
             var CountryToDelete = _CountryRepository.GetCountry(countryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_CountryRepository.DeleteCountry(CountryToDelete)) 
+            if (!_CountryRepository.deleteCountry(CountryToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
