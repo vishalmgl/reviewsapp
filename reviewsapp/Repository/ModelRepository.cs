@@ -15,7 +15,7 @@ namespace reviewsapp.Repository
             _context = context;
         }
 
-        public bool Createmodel(int ownerId, int CategoryId, Model model)
+        public bool CreateModel(int ownerId, int CategoryId, Model model)
         {
             var modelOwnerEntity=_context.OwnerName.Where(a=>a.Id==ownerId).FirstOrDefault();
             var category = _context.Categories.Where(a => a.Id == CategoryId).FirstOrDefault();
@@ -37,7 +37,7 @@ namespace reviewsapp.Repository
             return Save();
         }
 
-        public bool deleteModel(Model model)
+        public bool DeleteModel(Model model)
         {
             _context.Remove(model);
             return Save();  
@@ -77,7 +77,7 @@ namespace reviewsapp.Repository
             return saved >0 ? true : false;
         }
 
-        public bool updatemodel(int ownerId, int CategoryId, Model model)
+        public bool UpdateModel(int ownerId, int CategoryId, Model model)
         {
             _context.Update(model);
             return Save();

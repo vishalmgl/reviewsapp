@@ -84,7 +84,7 @@ namespace reviewsapp.Controllers
                 return BadRequest(ModelState);
             var modelMap = _mapper.Map<Model>(modelCreate);
 
-            if (!_modelRepository.Createmodel(ownerId, catId, modelMap))
+            if (!_modelRepository.CreateModel(ownerId, catId, modelMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -110,7 +110,7 @@ namespace reviewsapp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
             var modelMap = _mapper.Map<Model>(updatemodel);
-            if (!_modelRepository.updatemodel(ownerId,catId, modelMap))
+            if (!_modelRepository.UpdateModel(ownerId,catId, modelMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -137,7 +137,7 @@ namespace reviewsapp.Controllers
             {
                 ModelState.AddModelError("", "somthing went wrong when deleting");
             }
-            if (!_modelRepository.deleteModel(ModelToDelete))
+            if (!_modelRepository.DeleteModel(ModelToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
