@@ -11,19 +11,19 @@ namespace reviewsapp.Controllers
     [ApiController]
     public class CountryController : Controller
     {
-        private readonly ICountryRepository _countryRepository;
+        private readonly ICountryRepository _CountryRepository;
         private readonly IMapper _mapper;
 
-        public CountryController(ICountryRepository countryRepository, IMapper mapper)
+        public CountryController(ICountryRepository CountryRepository, IMapper mapper)
         {
-            _countryRepository = countryRepository;
+            _CountryRepository = CountryRepository;
             _mapper = mapper;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         public IActionResult GetCountry()
         {
-            var Country = _mapper.Map<List<CountryDto>>(_countryRepository.GetCountry());
+            var Country = _mapper.Map<List<CountryDto>>(_CountryRepository.GetCountry());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -35,10 +35,10 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetCountry(int countryId)
         {
-            if (_countryRepository.CountryExists(countryId))
+            if (_CountryRepository.CountryExists(countryId))
                 return NotFound();
 
-            var Country = _countryRepository.GetCountry(countryId);
+            var Country = _CountryRepository.GetCountry(countryId);
             if (!ModelState.IsValid)
 
                 return BadRequest(ModelState);
@@ -50,7 +50,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(Country))]
         public IActionResult GetCountryofAnOwner(int OwnerId)
         {
-            var Country = _mapper.Map<CountryDto>(_countryRepository.GetCountryByOwner(OwnerId));
+            var Country = _mapper.Map<CountryDto>(_CountryRepository.GetCountryByOwner(OwnerId));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(Country);
@@ -63,7 +63,7 @@ namespace reviewsapp.Controllers
         {
             if (countryCreate == null)
                 return BadRequest(ModelState);
-            var country = _countryRepository.GetCountries()
+            var country = _CountryRepository.GetCountries()
                 .Where(c => c.Name.Trim().ToUpper() == countryCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
@@ -75,7 +75,7 @@ namespace reviewsapp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var countryMap = _mapper.Map<Country>(countryCreate);
-            if (!_countryRepository.CreateCountry(countryMap))
+            if (!_CountryRepository.CreateCountry(countryMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -97,12 +97,12 @@ namespace reviewsapp.Controllers
             if (countryId != updateCountry.Id)
                 return BadRequest(ModelState);
 
-            if (!_countryRepository.CountryExists(countryId))
+            if (!_CountryRepository.CountryExists(countryId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
             var countryMap = _mapper.Map<Country>(updateCountry);
-            if (!_countryRepository.UpdateCountry(countryMap))
+            if (!_CountryRepository.UpdateCountry(countryMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -116,15 +116,15 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteCountry(int countryId)
         {
-            if (!_countryRepository.CountryExists(countryId))
+            if (!_CountryRepository.CountryExists(countryId))
             {
                 return NotFound();
 
             }
-            var countryToDelete = _countryRepository.GetCountry(countryId);
+            var countryToDelete = _CountryRepository.GetCountry(countryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_countryRepository.DeleteCountry(countryToDelete)) 
+            if (!_CountryRepository.DeleteCountry(countryToDelete)) 
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 

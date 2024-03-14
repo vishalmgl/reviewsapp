@@ -12,19 +12,19 @@ namespace reviewsapp.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _CategoryRepository;
-        private readonly IMapper _mapper;
+        private readonly IMapper _Mapper;
 
-        public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
+        public CategoryController(ICategoryRepository CategoryRepository, IMapper Mapper)
         {
-            _CategoryRepository = categoryRepository;
-            _mapper = mapper;
+            _CategoryRepository = CategoryRepository;
+            _Mapper = Mapper;
         }
 
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         public IActionResult GetCategories()
         {
-            var Categories = _mapper.Map<List<CategoryDto>>(_CategoryRepository.GetCategories());
+            var Categories = _Mapper.Map<List<CategoryDto>>(_CategoryRepository.GetCategories());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -46,12 +46,12 @@ namespace reviewsapp.Controllers
 
             return Ok(category);
         }
-        [HttpGet("category/{categoryId}")]
+        [HttpGet("category/{CategoryId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         [ProducesResponseType(400)]
         public IActionResult GetModelByCategoryId(int CategoryId)
         {
-            var category = _mapper.Map<List<CategoryDto>>(
+            var category = _Mapper.Map<List<CategoryDto>>(
                 _CategoryRepository.GetModelsByCategory(CategoryId));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -62,12 +62,12 @@ namespace reviewsapp.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateCategory([FromBody]CategoryDto categoryCreate)
+        public IActionResult CreateCategory([FromBody]CategoryDto CategoryCreate)
         {
-            if(categoryCreate ==null)
+            if(CategoryCreate ==null)
                 return BadRequest(ModelState);
             var category =_CategoryRepository.GetCategories()
-                .Where(c=>c.Name.Trim().ToUpper() == categoryCreate.Name.TrimEnd().ToUpper())
+                .Where(c=>c.Name.Trim().ToUpper() == CategoryCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
             if (category != null)
@@ -78,7 +78,7 @@ namespace reviewsapp.Controllers
                
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
-                var categoryMap = _mapper.Map<Category>(categoryCreate);
+                var categoryMap = _Mapper.Map<Category>(CategoryCreate);
                 if (!_CategoryRepository.CreateCategory(categoryMap))
                 {
                     ModelState.AddModelError("", "Something went wrong while saving");
@@ -89,23 +89,23 @@ namespace reviewsapp.Controllers
                 }
             return Ok("successfully created");
             }
-        [HttpPut("{categoryId}")]
+        [HttpPut("{CategoryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateCategory(int categoryId, [FromBody]CategoryDto updateCategory)
-        { if (updateCategory ==null)
+        public IActionResult UpdateCategory(int CategoryId, [FromBody]CategoryDto UpdateCategory)
+        { if (UpdateCategory ==null)
                 return BadRequest(ModelState);
 
-        if (categoryId != updateCategory.Id)
+        if (CategoryId != UpdateCategory.Id)
                 return BadRequest(ModelState);
 
-        if (!_CategoryRepository.CategoryExists(categoryId))
+        if (!_CategoryRepository.CategoryExists(CategoryId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
-            var catogoryMap= _mapper.Map<Category>(updateCategory);
-            if(!_CategoryRepository.UpdateCategory(catogoryMap))
+            var CatogoryMap= _Mapper.Map<Category>(UpdateCategory);
+            if(!_CategoryRepository.UpdateCategory(CatogoryMap))
             {
                 ModelState.AddModelError("","Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -113,21 +113,21 @@ namespace reviewsapp.Controllers
             }
             return NoContent();
         }
-        [HttpDelete("{categoryId}")]
+        [HttpDelete("{CategoryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult DeleteCategory(int categoryId)
+        public IActionResult DeleteCategory(int CategoryId)
         {
-            if (!_CategoryRepository.CategoryExists(categoryId))
+            if (!_CategoryRepository.CategoryExists(CategoryId))
             {
                 return NotFound();
 
             }
-            var categoryToDelete = _CategoryRepository.GetCategory(categoryId);
+            var CategoryToDelete = _CategoryRepository.GetCategory(CategoryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_CategoryRepository.DeleteCategory(categoryToDelete))
+            if (!_CategoryRepository.DeleteCategory(CategoryToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
