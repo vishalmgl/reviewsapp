@@ -55,7 +55,7 @@ namespace reviewsapp.Repository
 
         public decimal GetModelRating(int modId)
         {
-            var review = _context.Reviews.Where(p => p.Model.Id == modId).FirstOrDefault();
+            var review = _context.Reviews.Where(p => p.Model.Id == modId);
             if(review.Count() <= 0)
             return 0;
             return ((decimal)review.Sum(r =>r.Rating) / review.Count());
