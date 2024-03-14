@@ -11,12 +11,12 @@ namespace reviewsapp.Controllers
     [ApiController]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _CategoryRepository;
         private readonly IMapper _mapper;
 
         public CategoryController(ICategoryRepository categoryRepository, IMapper mapper)
         {
-            _categoryRepository = categoryRepository;
+            _CategoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
@@ -24,7 +24,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<Category>))]
         public IActionResult GetCategories()
         {
-            var Categories = _mapper.Map<List<CategoryDto>>(_categoryRepository.GetCategories());
+            var Categories = _mapper.Map<List<CategoryDto>>(_CategoryRepository.GetCategories());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -36,10 +36,10 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetCategory(int CategoryId)
         {
-            if (_categoryRepository.CategoryExists(CategoryId))
+            if (_CategoryRepository.CategoryExists(CategoryId))
                 return NotFound();
 
-            var category = _categoryRepository.GetCategory(CategoryId);
+            var category = _CategoryRepository.GetCategory(CategoryId);
             if (!ModelState.IsValid)
 
                 return BadRequest(ModelState);
@@ -52,7 +52,7 @@ namespace reviewsapp.Controllers
         public IActionResult GetModelByCategoryId(int CategoryId)
         {
             var category = _mapper.Map<List<CategoryDto>>(
-                _categoryRepository.GetModelsByCategory(CategoryId));
+                _CategoryRepository.GetModelsByCategory(CategoryId));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(category);
@@ -66,7 +66,7 @@ namespace reviewsapp.Controllers
         {
             if(categoryCreate ==null)
                 return BadRequest(ModelState);
-            var category =_categoryRepository.GetCategories()
+            var category =_CategoryRepository.GetCategories()
                 .Where(c=>c.Name.Trim().ToUpper() == categoryCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
@@ -79,7 +79,7 @@ namespace reviewsapp.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
                 var categoryMap = _mapper.Map<Category>(categoryCreate);
-                if (!_categoryRepository.CreateCategory(categoryMap))
+                if (!_CategoryRepository.CreateCategory(categoryMap))
                 {
                     ModelState.AddModelError("", "Something went wrong while saving");
                     return StatusCode(500,ModelState);
@@ -100,12 +100,12 @@ namespace reviewsapp.Controllers
         if (categoryId != updateCategory.Id)
                 return BadRequest(ModelState);
 
-        if (!_categoryRepository.CategoryExists(categoryId))
+        if (!_CategoryRepository.CategoryExists(categoryId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
             var catogoryMap= _mapper.Map<Category>(updateCategory);
-            if(!_categoryRepository.UpdateCategory(catogoryMap))
+            if(!_CategoryRepository.UpdateCategory(catogoryMap))
             {
                 ModelState.AddModelError("","Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -119,15 +119,15 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteCategory(int categoryId)
         {
-            if (!_categoryRepository.CategoryExists(categoryId))
+            if (!_CategoryRepository.CategoryExists(categoryId))
             {
                 return NotFound();
 
             }
-            var categoryToDelete = _categoryRepository.GetCategory(categoryId);
+            var categoryToDelete = _CategoryRepository.GetCategory(categoryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+            if (!_CategoryRepository.DeleteCategory(categoryToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
