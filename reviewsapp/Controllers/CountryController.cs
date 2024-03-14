@@ -12,33 +12,33 @@ namespace reviewsapp.Controllers
     public class CountryController : Controller
     {
         private readonly ICountryRepository _CountryRepository;
-        private readonly IMapper _mapper;
+        private readonly IMapper _Mapper;
 
-        public CountryController(ICountryRepository CountryRepository, IMapper mapper)
+        public CountryController(ICountryRepository CountryRepository, IMapper Mapper)
         {
             _CountryRepository = CountryRepository;
-            _mapper = mapper;
+            _Mapper = Mapper;
         }
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         public IActionResult GetCountry()
         {
-            var Country = _mapper.Map<List<CountryDto>>(_CountryRepository.GetCountry());
+            var Country = _Mapper.Map<List<CountryDto>>(_CountryRepository.GetCountry());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             return Ok(Country);
         }
-        [HttpGet("{countryId}")]
+        [HttpGet("{CountryId}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
         [ProducesResponseType(400)]
-        public IActionResult GetCountry(int countryId)
+        public IActionResult GetCountry(int CountryId)
         {
-            if (_CountryRepository.CountryExists(countryId))
+            if (_CountryRepository.CountryExists(CountryId))
                 return NotFound();
 
-            var Country = _CountryRepository.GetCountry(countryId);
+            var Country = _CountryRepository.GetCountry(CountryId);
             if (!ModelState.IsValid)
 
                 return BadRequest(ModelState);
@@ -50,7 +50,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(Country))]
         public IActionResult GetCountryofAnOwner(int OwnerId)
         {
-            var Country = _mapper.Map<CountryDto>(_CountryRepository.GetCountryByOwner(OwnerId));
+            var Country = _Mapper.Map<CountryDto>(_CountryRepository.GetCountryByOwner(OwnerId));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(Country);
@@ -59,23 +59,23 @@ namespace reviewsapp.Controllers
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateCountry([FromBody] CountryDto countryCreate)
+        public IActionResult CreateCountry([FromBody] CountryDto CountryCreate)
         {
-            if (countryCreate == null)
+            if (CountryCreate == null)
                 return BadRequest(ModelState);
-            var country = _CountryRepository.GetCountries()
-                .Where(c => c.Name.Trim().ToUpper() == countryCreate.Name.TrimEnd().ToUpper())
+            var Country = _CountryRepository.GetCountries()
+                .Where(c => c.Name.Trim().ToUpper() == CountryCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
-            if (country!= null)
+            if (Country!= null)
             {
-                ModelState.AddModelError("","country already exist");
+                ModelState.AddModelError("","Country already exist");
                 return BadRequest(ModelState);
             }
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var countryMap = _mapper.Map<Country>(countryCreate);
-            if (!_CountryRepository.CreateCountry(countryMap))
+            var CountryMap = _Mapper.Map<Country>(CountryCreate);
+            if (!_CountryRepository.CreateCountry(CountryMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -85,24 +85,24 @@ namespace reviewsapp.Controllers
             }
             return Ok("successfully created");
         }
-        [HttpPut("{countryId}")]
+        [HttpPut("{CountryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult UpdateCountry(int countryId, [FromBody] CountryDto updateCountry)
+        public IActionResult UpdateCountry(int CountryId, [FromBody] CountryDto UpdateCountry)
         {
-            if (updateCountry == null)
+            if (UpdateCountry == null)
                 return BadRequest(ModelState);
 
-            if (countryId != updateCountry.Id)
+            if (CountryId != UpdateCountry.Id)
                 return BadRequest(ModelState);
 
-            if (!_CountryRepository.CountryExists(countryId))
+            if (!_CountryRepository.CountryExists(CountryId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
-            var countryMap = _mapper.Map<Country>(updateCountry);
-            if (!_CountryRepository.UpdateCountry(countryMap))
+            var CountryMap = _Mapper.Map<Country>(UpdateCountry);
+            if (!_CountryRepository.UpdateCountry(CountryMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -110,7 +110,7 @@ namespace reviewsapp.Controllers
             }
             return NoContent();
         }
-        [HttpDelete("{countryId}")]
+        [HttpDelete("{CountryId}")]
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
@@ -121,10 +121,10 @@ namespace reviewsapp.Controllers
                 return NotFound();
 
             }
-            var countryToDelete = _CountryRepository.GetCountry(countryId);
+            var CountryToDelete = _CountryRepository.GetCountry(countryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_CountryRepository.DeleteCountry(countryToDelete)) 
+            if (!_CountryRepository.DeleteCountry(CountryToDelete)) 
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
