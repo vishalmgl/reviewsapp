@@ -53,13 +53,14 @@ namespace reviewsapp.Controllers
         [HttpGet("{modId}/Rating")]
         [ProducesResponseType(200, Type = typeof(decimal))]
         [ProducesResponseType(400)]
-        public IActionResult GetModelRating(int modId)
+        public IActionResult GetModelRating (int modId)
         {
             if (!_ModelRepository.ModelExists(modId))
-                return NotFound();
+                return NotFound(); 
             var Rating = _ModelRepository.GetModelRating(modId);
             if (!ModelState.IsValid)
-                return BadRequest(Rating);
+                return BadRequest();
+            return Ok(Rating);
         }
         [HttpPost]
         [ProducesResponseType(204)]
