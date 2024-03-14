@@ -13,15 +13,15 @@ namespace reviewsapp.Controllers
     public class OwnerNamesController :Controller
 
     {
-        private readonly IOwnerNamesRepository _ownerNamesRepository;
-        private readonly ICountryRepository _countryRepository;
-        private readonly IMapper _mapper;
+        private readonly IOwnerNamesRepository _OwnerNamesRepository;
+        private readonly ICountryRepository _CountryRepository;
+        private readonly IMapper _Mapper;
         
-        public OwnerNamesController(IOwnerNamesRepository ownerNamesRepository,ICountryRepository countryRepository, IMapper mapper)
+        public OwnerNamesController(IOwnerNamesRepository OwnerNamesRepository,ICountryRepository CountryRepository, IMapper Mapper)
         {
-            _ownerNamesRepository = ownerNamesRepository;
-            _countryRepository = countryRepository;
-            _mapper = mapper;
+            _OwnerNamesRepository = OwnerNamesRepository;
+            _CountryRepository = CountryRepository;
+            _Mapper = Mapper;
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(200, Type = typeof(IEnumerable<OwnerNameRepository>))]
         public IActionResult GetOwnerNames()
         {
-            var OwnerName = _mapper.Map<List<OwnerNamesDto>>(_ownerNamesRepository.GetOwnerNames());
+            var OwnerName = _Mapper.Map<List<OwnerNamesDto>>(_OwnerNamesRepository.GetOwnerNames());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -41,10 +41,10 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetOwnerNames(int OwnerId)
         {
-            if (_ownerNamesRepository.OwnersExist(OwnerId))
+            if (_OwnerNamesRepository.OwnersExist(OwnerId))
                 return NotFound();
 
-            var OwnerNames = _ownerNamesRepository.GetOwner(OwnerId);
+            var OwnerNames = _OwnerNamesRepository.GetOwner(OwnerId);
             if (!ModelState.IsValid)
 
                 return BadRequest(ModelState);
@@ -56,27 +56,27 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetModelByOwnerNames(int OwnerId)
         {
-            if (!_ownerNamesRepository.OwnersExist(OwnerId))
+            if (!_OwnerNamesRepository.OwnersExist(OwnerId))
             {
                 return NotFound();
             }
-            var ownernames =_mapper.Map<List<OwnerNamesDto>>(_ownerNamesRepository.GetModelByOwnernames(OwnerId));
+            var OwnerNames =_Mapper.Map<List<OwnerNamesDto>>(_OwnerNamesRepository.GetModelByOwnerNames(OwnerId));
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            return Ok(ownernames);
+            return Ok(OwnerNames);
         }
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateOwner([FromQuery]int CountryId,[FromBody] OwnerNamesDto ownerCreate)
+        public IActionResult CreateOwner([FromQuery]int CountryId,[FromBody] OwnerNamesDto OwnerCreate)
         {
-            if (ownerCreate == null)
+            if (OwnerCreate == null)
                 return BadRequest(ModelState);
-            var owner = _ownerNamesRepository.GetOwnerNames()
-                .Where(c => c.LastName.Trim().ToUpper() == ownerCreate.LastName.TrimEnd().ToUpper())
+            var Owner = _OwnerNamesRepository.GetOwnerNames()
+                .Where(c => c.LastName.Trim().ToUpper() == OwnerCreate.LastName.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
-            if (owner != null)
+            if (Owner != null)
             {
                 ModelState.AddModelError("", "Owner already exist");
                 return StatusCode(422, ModelState);
@@ -84,9 +84,9 @@ namespace reviewsapp.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var ownerMap = _mapper.Map<OwnerName>(ownerCreate);
-            ownerMap.Country = _countryRepository.GetCountry(CountryId); 
-            if (!_ownerNamesRepository.CreateOwner(ownerMap))
+            var OwnerMap = _Mapper.Map<OwnerName>(OwnerCreate);
+            OwnerMap.Country = _CountryRepository.GetCountry(CountryId); 
+            if (!_OwnerNamesRepository.CreateOwner(OwnerMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -108,12 +108,12 @@ namespace reviewsapp.Controllers
             if (OwnerId != UpdateOwnerName.Id)
                 return BadRequest(ModelState);
 
-            if (!_ownerNamesRepository.OwnersExist(OwnerId))
+            if (!_OwnerNamesRepository.OwnersExist(OwnerId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
-            var OwnerMap = _mapper.Map<OwnerName>(UpdateOwnerName);
-            if (!_ownerNamesRepository.UpdateOwnerNames(OwnerMap))
+            var OwnerMap = _Mapper.Map<OwnerName>(UpdateOwnerName);
+            if (!_OwnerNamesRepository.UpdateOwnerNames(OwnerMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -127,15 +127,15 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteOwnerName(int OwnerId)
         {
-            if (!_ownerNamesRepository.OwnersExist(OwnerId))
+            if (!_OwnerNamesRepository.OwnersExist(OwnerId))
             {
                 return NotFound();
 
             }
-            var OwnerToDelete = _ownerNamesRepository.GetOwner(OwnerId);
+            var OwnerToDelete = _OwnerNamesRepository.GetOwner(OwnerId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_ownerNamesRepository.DeleteOwner(OwnerToDelete))
+            if (!_OwnerNamesRepository.DeleteOwner(OwnerToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 

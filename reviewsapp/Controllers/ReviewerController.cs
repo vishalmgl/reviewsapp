@@ -37,7 +37,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetModel(int reviewerid)
         {
-            if (_reviewerRepository.reviewerExixts(reviewerid))
+            if (_reviewerRepository.ReviewerExixts(reviewerid))
                 return NotFound();
 
             var reviewer = _reviewerRepository.GetReviewers(reviewerid);
@@ -50,7 +50,7 @@ namespace reviewsapp.Controllers
         [HttpGet("{reviewerid}/reviews")]
         public IActionResult GetReviewsByAReviewer(int reviewerid)
         {
-            if (_reviewerRepository.reviewerExixts(reviewerid))
+            if (_reviewerRepository.ReviewerExixts(reviewerid))
                 return NotFound();
 
             var reviews = _mapper.Map<List<ReviewsDto>>(_reviewerRepository.GetReviewsByReviewer(reviewerid));
@@ -103,7 +103,7 @@ namespace reviewsapp.Controllers
             if (reviewerId != Updatereviewer.Id)
                 return BadRequest(ModelState);
 
-            if (!_reviewerRepository.reviewerExixts(reviewerId))
+            if (!_reviewerRepository.ReviewerExixts(reviewerId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -122,7 +122,7 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(404)]
         public IActionResult Deletereviewer(int reviwerId)
         {
-            if (!_reviewerRepository.reviewerExixts(reviwerId))
+            if (!_reviewerRepository.ReviewerExixts(reviwerId))
             {
                 return NotFound();
 

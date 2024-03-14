@@ -48,7 +48,7 @@ namespace reviewsapp.Repository
             return _context.Reviews.Where(r=>r.Reviewer.Id == reviewerid).ToList();
         }
 
-        public bool reviewerExixts(int reviewerid)
+        public bool ReviewerExixts(int reviewerid)
         {
             return _context.Reviewers.Any(r =>r.Id ==reviewerid);
         }

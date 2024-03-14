@@ -27,7 +27,7 @@ namespace reviewsapp.Repository
             return Save();
         }
 
-        public ICollection<Model> GetModelByOwnernames(int ownerId)
+        public ICollection<Model> GetModelByOwnerNames(int ownerId)
         {
             return _context.ModelOwners.Where(p => p.Owner.Id == ownerId).Select(p => p.Model).ToList();
         }

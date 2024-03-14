@@ -7,7 +7,7 @@ namespace reviewsapp.Interfaces
         ICollection<OwnerName>GetOwnerNames();
         OwnerName GetOwner(int OwnerId);
         ICollection<OwnerName> GetOwnerofAModel(int modId);
-        ICollection<Model>GetModelByOwnernames(int ownerId);
+        ICollection<Model>GetModelByOwnerNames(int ownerId);
         bool OwnersExist(int ownerId);
         bool CreateOwner(OwnerName ownerName);
         bool UpdateOwnerNames(OwnerName ownerName);

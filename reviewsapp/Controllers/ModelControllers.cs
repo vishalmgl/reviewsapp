@@ -11,24 +11,24 @@ namespace reviewsapp.Controllers
     [ApiController]
     public class ModelControllers : Controller
     {
-        private readonly IModelRepository _modelRepository;
-        private readonly IOwnerNamesRepository _ownerNamesRepository;
-        private readonly IReviewRepository _reviewRepository;
-        private readonly IMapper _mapper;
+        private readonly IModelRepository _ModelRepository;
+        private readonly IOwnerNamesRepository _OwnerNamesRepository;
+        private readonly IReviewRepository _ReviewRepository;
+        private readonly IMapper _Mapper;
 
-        public ModelControllers(IModelRepository ModelRepository, IOwnerNamesRepository ownerNamesRepository, IReviewRepository reviewRepository, IMapper mapper)
+        public ModelControllers(IModelRepository ModelRepository,IOwnerNamesRepository OwnerNamesRepository,IReviewRepository ReviewRepository, IMapper Mapper)
         {
-            _modelRepository = ModelRepository;
-            _ownerNamesRepository = ownerNamesRepository;
-            _reviewRepository = reviewRepository;
-            _mapper = mapper;
+            _ModelRepository = ModelRepository;
+            _OwnerNamesRepository = OwnerNamesRepository;
+            _ReviewRepository = ReviewRepository;
+            _Mapper = Mapper;
         }
         [HttpGet]
 
         [ProducesResponseType(200, Type = typeof(IEnumerable<Model>))]
         public IActionResult GetModels()
         {
-            var Models = _mapper.Map<List<ModelDto>>(_modelRepository.GetModels());
+            var Models = _Mapper.Map<List<ModelDto>>(_ModelRepository.GetModels());
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -40,40 +40,39 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         public IActionResult GetModel(int modId)
         {
-            if (_modelRepository.ModelExists(modId))
+            if (_ModelRepository.ModelExists(modId))
                 return NotFound();
 
-            var model = _modelRepository.GetModel(modId);
+            var Model = _ModelRepository.GetModel(modId);
             if (!ModelState.IsValid)
 
                 return BadRequest(ModelState);
 
-            return Ok(model);
+            return Ok(Model);
         }
-        [HttpGet("{modId}/rating")]
+        [HttpGet("{modId}/Rating")]
         [ProducesResponseType(200, Type = typeof(decimal))]
         [ProducesResponseType(400)]
         public IActionResult GetModelRating(int modId)
         {
-            if (!_modelRepository.ModelExists(modId))
+            if (!_ModelRepository.ModelExists(modId))
                 return NotFound();
-            var rating = _modelRepository.GetModelRating(modId);
+            var Rating = _ModelRepository.GetModelRating(modId);
             if (!ModelState.IsValid)
-                return BadRequest(rating);
-            return Ok(rating);
+                return BadRequest(Rating);
         }
         [HttpPost]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
-        public IActionResult CreateModel([FromQuery] int ownerId, [FromQuery][FromBody] int catId, ModelDto modelCreate)
+        public IActionResult CreateModel([FromQuery] int OwnerId, [FromQuery]int catId, ModelDto ModelCreate)
         {
-            if (modelCreate == null)
+            if (ModelCreate == null)
                 return BadRequest(ModelState);
-            var models = _modelRepository.GetModels()
-                .Where(c => c.Name.Trim().ToUpper() == modelCreate.Name.TrimEnd().ToUpper())
+            var Models = _ModelRepository.GetModels()
+                .Where(c => c.Name.Trim().ToUpper() == ModelCreate.Name.TrimEnd().ToUpper())
                 .FirstOrDefault();
 
-            if (models != null)
+            if (Models != null)
             {
                 ModelState.AddModelError("", "Owner already exist");
                 return StatusCode(422, ModelState);
@@ -81,9 +80,9 @@ namespace reviewsapp.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            var modelMap = _mapper.Map<Model>(modelCreate);
+            var modelMap = _Mapper.Map<Model>(ModelCreate);
 
-            if (!_modelRepository.Createmodel(ownerId, catId, modelMap))
+            if (!_ModelRepository.CreateModel(OwnerId, catId, modelMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
                 return StatusCode(500, ModelState);
@@ -97,20 +96,19 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult updatemodel(int modId, [FromQuery] int ownerId, [FromQuery] int catId, [FromBody] ModelDto updatemodel)
-        {
-            if (updatemodel == null)
+        public IActionResult UpdateModel(int modId,  [FromQuery] int OwnerId,[FromQuery] int catId, [FromBody] ModelDto UpdateModel)        {
+            if (UpdateModel == null)
                 return BadRequest(ModelState);
 
-            if (modId != updatemodel.Id)
+            if (modId != UpdateModel.Id)
                 return BadRequest(ModelState);
 
-            if (!_modelRepository.ModelExists(modId))
+            if (!_ModelRepository.ModelExists(modId))
                 return NotFound();
             if (!ModelState.IsValid)
                 return BadRequest();
-            var modelMap = _mapper.Map<Model>(updatemodel);
-            if (!_modelRepository.updatemodel(ownerId, catId, modelMap))
+            var ModelMap = _Mapper.Map<Model>(UpdateModel);
+            if (!_ModelRepository.UpdateModel(OwnerId,catId, ModelMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -124,20 +122,20 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(404)]
         public IActionResult DeleteModel(int modId)
         {
-            if (!_modelRepository.ModelExists(modId))
+            if (!_ModelRepository.ModelExists(modId))
             {
                 return NotFound();
 
             }
-            var reviewstoDelete = _reviewRepository.GetReviewsofAModel(modId);
-            var ModelToDelete = _modelRepository.GetModel(modId);
+            var ReviewstoDelete=_ReviewRepository.GetReviewsofAModel(modId);
+            var ModelToDelete = _ModelRepository.GetModel(modId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_reviewRepository.DeleteReviews(reviewstoDelete.ToList()))
+            if (!_ReviewRepository.DeleteReviews(ReviewstoDelete.ToList()))
             {
                 ModelState.AddModelError("", "somthing went wrong when deleting");
             }
-            if (!_modelRepository.deleteModel(ModelToDelete))
+            if (!_ModelRepository.DeleteModel(ModelToDelete))
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 
