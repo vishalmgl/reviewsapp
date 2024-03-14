@@ -124,7 +124,7 @@ namespace reviewsapp.Controllers
             var countryToDelete = _countryRepository.GetCountry(countryId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            if (!_countryRepository.deleteCountry(countryToDelete)) 
+            if (!_countryRepository.DeleteCountry(countryToDelete)) 
             {
                 ModelState.AddModelError("", "something went wrong deleting category");
 

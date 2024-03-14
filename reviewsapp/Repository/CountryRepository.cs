@@ -29,7 +29,7 @@ namespace reviewsapp.Repository
             return Save();
         }
 
-        public bool deleteCountry(Country country)
+        public bool DeleteCountry(Country country)
         {
             _context.Remove(country);
             return Save();
