@@ -8,6 +8,10 @@ namespace reviewsapp.Interfaces
         Country GetCountry(int id);
         Country GetCountryByOwner(int OnwerId);
         ICollection<OwnerName>GetOwnerfromACountry(int countryId);
-        bool CountryExists(int id); 
+        bool CountryExists(int id);
+        bool CreateCountry(Country country);
+        bool UpdateCountry(Country country);
+        bool deleteCountry(Country country);
+        bool Save();
     }
 }

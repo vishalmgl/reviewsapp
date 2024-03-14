@@ -2,6 +2,7 @@
 using reviewsapp.Data;
 using reviewsapp.Interfaces;
 using reviewsapp.models;
+using System.Diagnostics.Metrics;
 
 namespace reviewsapp.Repository
 {
@@ -13,6 +14,19 @@ namespace reviewsapp.Repository
         {
             _context = context;
         }
+
+        public bool CreateOwner(OwnerName ownerName)
+        {
+            _context.Add(ownerName);
+            return Save();
+        }
+
+        public bool DeleteOwner(OwnerName ownerName)
+        {
+            _context.Remove(ownerName); 
+            return Save();
+        }
+
         public ICollection<Model> GetModelByOwnernames(int ownerId)
         {
             return _context.ModelOwners.Where(p => p.Owner.Id == ownerId).Select(p => p.Model).ToList();
@@ -39,5 +53,16 @@ namespace reviewsapp.Repository
             return _context.OwnerName.Any(o => o.Id == ownerId);
         }
 
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public bool UpdateOwnerNames(OwnerName ownerName)
+        {
+            _context.Update(ownerName);
+            return Save();
+        }
     }
 }

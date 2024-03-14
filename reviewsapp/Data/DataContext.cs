@@ -3,13 +3,13 @@ using reviewsapp.models;
 
 namespace reviewsapp.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : DbContext // DataContext class that represents the database context for our application derived from dbcontext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; }//represents a collection of Category entities in the database.
         public DbSet<Country> Country { get; set; }
         public DbSet<OwnerName> OwnerName { get; set; }
         public DbSet<Model> Models { get; set; }
@@ -18,7 +18,7 @@ namespace reviewsapp.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Reviewer> Reviewers { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)// OnModelCreating method is used to configure the relationships between these entities
         {
             modelBuilder.Entity<ModelCategory>()
                 .HasKey(pc => new { pc.modelId, pc.categoryId });
@@ -31,8 +31,7 @@ namespace reviewsapp.Data
             modelBuilder.Entity<ModelCategory>()
                 .HasOne(pc => pc.Category)
                 .WithMany(c => c.ModelCategories)
-                .HasForeignKey(pc => pc.categoryId); // Assuming categoryId is of type int
-
+                .HasForeignKey(pc => pc.categoryId); 
 
             modelBuilder.Entity<ModelOwner>()
                 .HasKey(po => new { po.modelId, po.OwnerId });

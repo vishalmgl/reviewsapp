@@ -10,5 +10,9 @@ namespace reviewsapp.Interfaces
         Model GetModel(string Name);
         decimal GetModelRating(int modId);
         bool ModelExists(int modId);
+        bool Createmodel(int ownerId,int CategoryId,Model model);
+        bool updatemodel(int ownerId,int CategoryId,Model model);
+        bool deleteModel(Model model);
+        bool Save(); 
     }
 }

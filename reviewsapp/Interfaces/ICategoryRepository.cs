@@ -6,8 +6,12 @@ namespace reviewsapp.Interfaces
     {
         ICollection<Category> GetCategories();
         Category GetCategory(int id);
-        ICollection<Model>GetModelsByCategory(int catagoryId);
+        ICollection<Model> GetModelsByCategory(int catagoryId);
         bool CategoryExists(int id);
-    }
+        bool CreateCategory(Category category);
+        bool UpdateCategory(Category category);//creating method signature
+        bool DeleteCategory(Category category);
+        bool Save();
 
+    }
 }

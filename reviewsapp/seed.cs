@@ -40,7 +40,8 @@ namespace reviewsapp
                         },
                         Owner = new OwnerName ()
                         {
-                            Name = "Jack London",
+                            FirstName = "Jack",
+                            LastName="London",
                             Gym = "Brocks Gym",
                             Country = new Country()
                             {
@@ -70,7 +71,8 @@ namespace reviewsapp
                         },
                         Owner = new OwnerName()
                         {
-                            Name = "Harry Potter",
+                            FirstName = "Harry", 
+                            LastName="Potter",
                             Gym = "Mistys Gym",
                             Country = new Country()
                             {
@@ -101,7 +103,8 @@ namespace reviewsapp
                         Owner = new OwnerName()
                         {
 
-                            Name = "Ash Ketchum",
+                            FirstName = "Ash",
+                            LastName="KeStchum",
                             Gym = "Ashs Gym",
                             Country = new Country()
                             {

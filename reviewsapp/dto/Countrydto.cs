@@ -1,6 +1,6 @@
 ﻿namespace reviewsapp.dto
 {
-    public class Countrydto
+    public class CountryDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

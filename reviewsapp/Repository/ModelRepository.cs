@@ -1,4 +1,5 @@
 ﻿//using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using reviewsapp.Data;
 using reviewsapp.Interfaces;
 using reviewsapp.models;
@@ -12,6 +13,34 @@ namespace reviewsapp.Repository
         public ModelRepository(DataContext context)
         {
             _context = context;
+        }
+
+        public bool Createmodel(int ownerId, int CategoryId, Model model)
+        {
+            var modelOwnerEntity=_context.OwnerName.Where(a=>a.Id==ownerId).FirstOrDefault();
+            var category = _context.Categories.Where(a => a.Id == CategoryId).FirstOrDefault();
+            var modelOwner = new ModelOwner()
+            {
+                Owner = modelOwnerEntity,
+                Model = model
+
+            };
+            _context.Add(modelOwner);
+            var modelCategory = new ModelCategory()
+            {
+                Category = category,
+                Model = model,
+
+            };
+            _context.Add(modelCategory);
+            _context.Add(model);
+            return Save();
+        }
+
+        public bool deleteModel(Model model)
+        {
+            _context.Remove(model);
+            return Save();  
         }
 
         public Model GetModel(int Id)
@@ -40,6 +69,18 @@ namespace reviewsapp.Repository
         public bool ModelExists(int modId)
         {
             return _context.Models.Any(p => p.Id == modId);
+        }
+
+        public bool Save()
+        {
+            var saved =_context.SaveChanges();
+            return saved >0 ? true : false;
+        }
+
+        public bool updatemodel(int ownerId, int CategoryId, Model model)
+        {
+            _context.Update(model);
+            return Save();
         }
     }
 
