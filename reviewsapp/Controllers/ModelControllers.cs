@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using reviewsapp.dto;
 using reviewsapp.Interfaces;
 using reviewsapp.models;
-using reviewsapp.Repository;
-
 
 
 namespace reviewsapp.Controllers
@@ -18,7 +16,7 @@ namespace reviewsapp.Controllers
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
 
-        public ModelControllers(IModelRepository ModelRepository,IOwnerNamesRepository ownerNamesRepository,IReviewRepository reviewRepository, IMapper mapper)
+        public ModelControllers(IModelRepository ModelRepository, IOwnerNamesRepository ownerNamesRepository, IReviewRepository reviewRepository, IMapper mapper)
         {
             _modelRepository = ModelRepository;
             _ownerNamesRepository = ownerNamesRepository;
@@ -62,6 +60,7 @@ namespace reviewsapp.Controllers
             var rating = _modelRepository.GetModelRating(modId);
             if (!ModelState.IsValid)
                 return BadRequest(rating);
+            return Ok(rating);
         }
         [HttpPost]
         [ProducesResponseType(204)]
@@ -98,7 +97,8 @@ namespace reviewsapp.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(204)]
         [ProducesResponseType(404)]
-        public IActionResult updatemodel(int modId,  [FromQuery] int ownerId,[FromQuery] int catId, [FromBody] ModelDto updatemodel)        {
+        public IActionResult updatemodel(int modId, [FromQuery] int ownerId, [FromQuery] int catId, [FromBody] ModelDto updatemodel)
+        {
             if (updatemodel == null)
                 return BadRequest(ModelState);
 
@@ -110,7 +110,7 @@ namespace reviewsapp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
             var modelMap = _mapper.Map<Model>(updatemodel);
-            if (!_modelRepository.updatemodel(ownerId,catId, modelMap))
+            if (!_modelRepository.updatemodel(ownerId, catId, modelMap))
             {
                 ModelState.AddModelError("", "Something went wrong updating category");
                 return StatusCode(500, ModelState);
@@ -129,7 +129,7 @@ namespace reviewsapp.Controllers
                 return NotFound();
 
             }
-            var reviewstoDelete=_reviewRepository.GetReviewsofAModel(modId);
+            var reviewstoDelete = _reviewRepository.GetReviewsofAModel(modId);
             var ModelToDelete = _modelRepository.GetModel(modId);
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
