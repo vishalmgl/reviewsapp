@@ -60,7 +60,7 @@ namespace reviewsapp.Controllers
             {
                 return NotFound();
             }
-            var ownernames =_mapper.Map<List<OwnerNamesDto>>(_ownerNamesRepository.GetModelByOwnernames(OwnerId));
+            var ownernames =_mapper.Map<List<OwnerNamesDto>>(_ownerNamesRepository.GetModelByOwnerNames(OwnerId));
             if(!ModelState.IsValid)
                 return BadRequest(ModelState);
             return Ok(ownernames);
