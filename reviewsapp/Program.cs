@@ -47,7 +47,7 @@ void SeedData(IHost app)
     }
 }
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()) 
 {
     app.UseSwagger();//swagger for documenting and testing api
     app.UseSwaggerUI();//visualization
