@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace reviewsapp.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ReviewerController : Controller
     {

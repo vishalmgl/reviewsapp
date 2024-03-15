@@ -7,7 +7,7 @@ using reviewsapp.Repository;
 //controller handels the request
 namespace reviewsapp.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : Controller
     {

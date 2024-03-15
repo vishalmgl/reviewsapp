@@ -7,7 +7,7 @@ using reviewsapp.models;
 
 namespace reviewsapp.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ModelControllers : Controller
     {
