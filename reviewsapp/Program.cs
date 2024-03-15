@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using reviewsapp;
 using reviewsapp.Data;
 using reviewsapp.Interfaces;
@@ -8,6 +9,7 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);//creates a new instance of a class
+
 
 // Add services to the container.
 //you register varoius services and dependencies
@@ -34,6 +36,7 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));//data context is entity framework core
 });//This configures the application's data context to use SQL Server as the database provider
 var app = builder.Build();
+
 
 
 
