@@ -51,12 +51,12 @@ namespace reviewsapp.Controllers
 
             return Ok(OwnerNames);
         }
-        [HttpGet("{OwnerId/Model}")]
+        [HttpGet("{OwnerId}/Model")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<OwnerName>))]
         [ProducesResponseType(400)]
         public IActionResult GetModelByOwnerNames(int OwnerId)
         {
-            if (!_OwnerNamesRepository.OwnersExist(OwnerId))
+            if (!_OwnerNamesRepository.OwnersExist(OwnerId))  
             {
                 return NotFound();
             }

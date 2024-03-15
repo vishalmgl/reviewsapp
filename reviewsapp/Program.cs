@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+
 using reviewsapp;
 using reviewsapp.Data;
 using reviewsapp.Interfaces;
@@ -8,6 +9,7 @@ using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);//creates a new instance of a class
+
 
 // Add services to the container.
 //you register varoius services and dependencies
@@ -37,6 +39,7 @@ var app = builder.Build();
 
 
 
+
 void SeedData(IHost app)
 {
 
@@ -57,6 +60,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
- app.MapControllers();
+app.MapControllers();
 SeedData(app);
 app.Run();
